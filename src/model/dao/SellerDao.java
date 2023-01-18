@@ -12,10 +12,9 @@ public interface SellerDao {
 
 	void deleteById(Integer id);
 
-	void findById(Integer id);
+	Seller findById(Integer id);
 
 	Seller findAll(Integer id);
 
-	List<Seller> finadAll();
-	
+	List<Seller> finadAll();	
 }
