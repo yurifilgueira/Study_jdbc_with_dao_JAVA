@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -40,8 +41,15 @@ public class Program {
 			System.out.println(sel);
 		}
 		
+		System.out.println("--------------------------Test 4--------------------------");
+
+		Seller newseller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 5500.00, dep);
+		
+		sellerDao.insert(newseller);
+		
+		System.out.println("Inserted! New id = " + newseller.getId());
+		
 		sc.close();
 
 	}
-
 }

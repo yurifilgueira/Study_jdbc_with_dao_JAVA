@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,8 @@ import model.entities.Seller;
 
 public class SellerDaoJDBC implements SellerDao {
 
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	
 	private Connection conn;
 
 	public SellerDaoJDBC(Connection conn) {
@@ -25,7 +29,44 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void insert(Seller obj) {
-
+		
+		PreparedStatement sta = null;
+		
+		try {
+			sta = conn.prepareStatement("INSERT INTO seller " 
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) " 
+					+ "VALUES " 
+					+ "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		
+			sta.setString(1, obj.getName());
+			sta.setString(2, obj.getEmail());
+			sta.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			sta.setDouble(4, obj.getBaseSalary());
+			sta.setInt(5, obj.getDepartment().getId());
+			
+			int rowsAffected = sta.executeUpdate();
+	
+			if (rowsAffected > 0) {
+				ResultSet res = sta.getGeneratedKeys();
+				
+				if (res.next()) {
+					int id = res.getInt(1);
+					obj.setId(id);
+				}
+				
+				DB.closeResultSet(res);
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		}
+		
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(sta);
+		}
 	}
 
 	@Override
@@ -89,13 +130,7 @@ public class SellerDaoJDBC implements SellerDao {
 		
 		return dep;
 	}
-
-	@Override
-	public Seller findAll(Integer id) {
-
-		return null;
-	}
-
+	
 	@Override
 	public List<Seller> findAll() {
 		PreparedStatement sta = null;
@@ -166,7 +201,7 @@ public class SellerDaoJDBC implements SellerDao {
 				list.add(sel);
 			}
 			return list;
-		} 
+		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
@@ -175,5 +210,4 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeResultSet(res);
 		}
 	}
-
 }
