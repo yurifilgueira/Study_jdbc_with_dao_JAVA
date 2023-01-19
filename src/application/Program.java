@@ -50,6 +50,26 @@ public class Program {
 		System.out.println("Inserted! New id = " + newseller.getId());
 		
 		sc.close();
+		
+		System.out.println("--------------------------Test 5--------------------------");
+		seller = sellerDao.findById(1);
+		
+		seller.setName("Bruce Wayne");
+		
+		sellerDao.update(seller);
+		
+		System.out.println("Update completed!");
+		
+		System.out.println("--------------------------Test 6--------------------------");
+		
+		System.out.print("Enter the id that will be deleted: ");
+		int idToBeDeleted = sc.nextInt();
+		
+		sellerDao.deleteById(idToBeDeleted);
+		
+		System.out.println("Delete completed!");
+		
+		sc.close();
 
 	}
 }
