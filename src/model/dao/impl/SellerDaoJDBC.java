@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +17,6 @@ import model.entities.Department;
 import model.entities.Seller;
 
 public class SellerDaoJDBC implements SellerDao {
-
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private Connection conn;
 
@@ -200,7 +197,7 @@ public class SellerDaoJDBC implements SellerDao {
 				list.add(sel);
 			}
 			return list;
-		} 
+		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}

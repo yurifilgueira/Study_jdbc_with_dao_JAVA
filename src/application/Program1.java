@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
+import db.DB;
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
-public class Program {
+public class Program1 {
 
 	public static void main(String[] args) {
 
@@ -18,7 +19,7 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("--------------------------Test 1--------------------------");
-		SellerDao sellerDao = DaoFactory.creatSellerDao();
+		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
 		Seller seller = sellerDao.findById(2);
 		
@@ -49,8 +50,6 @@ public class Program {
 		
 		System.out.println("Inserted! New id = " + newseller.getId());
 		
-		sc.close();
-		
 		System.out.println("--------------------------Test 5--------------------------");
 		seller = sellerDao.findById(1);
 		
@@ -71,5 +70,6 @@ public class Program {
 		
 		sc.close();
 
+		DB.closeConnection();
 	}
 }
